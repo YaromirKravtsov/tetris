@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 const canvas = document.getElementById("tetris");
 const context = canvas.getContext("2d");
 
@@ -193,4 +195,4 @@ const arena = createMatrix(COLS, ROWS);
 const player = { pos: { x: 0, y: 0 }, matrix: null };
 playerReset();
 update();
- 
+});
