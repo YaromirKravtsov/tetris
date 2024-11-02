@@ -110,8 +110,8 @@ function playerReset() {
     player.pos.y = 0;
     player.pos.x = (COLS / 2 | 0) - (player.matrix[0].length / 2 | 0);
     
-    const colorArray = ['#0B7DCF', '#CF2B31', '#F0830E'];
-    player.color = colorArray[Math.floor(colorArray.length * Math.random())];
+  /*   const colorArray = ['#0B7DCF', '#CF2B31', '#F0830E']; */
+    player.color = '#0B7DCF';
     
     if (collide(arena, player)) {
         arena.forEach(row => row.fill(0));
