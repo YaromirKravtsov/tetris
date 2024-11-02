@@ -12,7 +12,7 @@ let score = 0;
 let highScore = localStorage.getItem("highScore") || 0;
 document.getElementById("highScore").innerText = highScore;
 
-let isPaused = false; // Переменная для отслеживания состояния паузы
+let isPaused = false;
 
 context.scale(BLOCK_SIZE, BLOCK_SIZE);
 
@@ -69,24 +69,6 @@ function createPiece(type) {
     }
 }
 
-function drawMatrix(matrix, offset) {
-    matrix.forEach((row, y) => {
-        row.forEach((value, x) => {
-            if (value !== 0) {
-                const colorArray = ['0B7DCF', 'CF2B31' , 'F0830E']
-                context.fillStyle = colorArray[Math.floor(colorArray.length * Math.random())];
-                context.fillRect(x + offset.x, y + offset.y, 1, 1);
-            }
-        });
-    });
-}
-
-function draw() {
-    context.fillStyle = "#000";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    drawMatrix(arena, { x: 0, y: 0 });
-    drawMatrix(player.matrix, player.pos);
-}
 
 function merge(arena, player) {
     player.matrix.forEach((row, y) => {
@@ -99,13 +81,13 @@ function merge(arena, player) {
 }
 
 function playerDrop() {
-    if (isPaused) return; // Проверяем, если игра на паузе, то блоки не падают
+    if (isPaused) return; 
     player.pos.y++;
     if (collide(arena, player)) {
         player.pos.y--;
         merge(arena, player);
-        score += 1; // Увеличиваем счёт на 1 за каждый установленный блок
-        document.getElementById("score").innerText = score; // Обновляем отображение счёта
+        score += 1; 
+        document.getElementById("score").innerText = score; 
         playerReset();
         arenaSweep();
     }
@@ -113,7 +95,7 @@ function playerDrop() {
 }
 
 function playerMove(dir) {
-    if (isPaused) return; // Блоки не двигаются, если игра на паузе
+    if (isPaused) return; 
     player.pos.x += dir;
     if (collide(arena, player)) {
         player.pos.x -= dir;
@@ -125,6 +107,10 @@ function playerReset() {
     player.matrix = createPiece(pieces[Math.floor(pieces.length * Math.random())]);
     player.pos.y = 0;
     player.pos.x = (COLS / 2 | 0) - (player.matrix[0].length / 2 | 0);
+    
+    const colorArray = ['#0B7DCF', '#CF2B31', '#F0830E'];
+    player.color = colorArray[Math.floor(colorArray.length * Math.random())];
+    
     if (collide(arena, player)) {
         arena.forEach(row => row.fill(0));
         score = 0;
@@ -132,8 +118,28 @@ function playerReset() {
     }
 }
 
+function drawMatrix(matrix, offset, color) {
+    matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) {
+                context.fillStyle = color;
+                context.fillRect(x + offset.x, y + offset.y, 1, 1);
+            }
+        });
+    });
+}
+
+function draw() {
+    context.fillStyle = "#000";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    drawMatrix(arena, { x: 0, y: 0 }, "#444"); // Заливка арены серым
+    drawMatrix(player.matrix, player.pos, player.color); // Используем цвет фигуры
+}
+
+
+
 function playerRotate(dir) {
-    if (isPaused) return; // Блоки не поворачиваются, если игра на паузе
+    if (isPaused) return; 
     const pos = player.pos.x;
     let offset = 1;
     rotate(player.matrix, dir);
@@ -163,7 +169,7 @@ let dropInterval = 1000;
 let lastTime = 0;
 
 function update(time = 0) {
-    if (!isPaused) { // Если не на паузе, то обновляем игру
+    if (!isPaused) {
         const deltaTime = time - lastTime;
         lastTime = time;
         dropCounter += deltaTime;
@@ -178,8 +184,8 @@ document.addEventListener("keydown", event => {
     else if (event.key === "ArrowRight") playerMove(1);
     else if (event.key === "ArrowDown") playerDrop();
     else if (event.key === "ArrowUp") playerRotate(1);
-    else if (event.key === " ") { // Обработчик для пробела
-        isPaused = !isPaused; // Переключаем состояние паузы
+    else if (event.key === " ") {
+        isPaused = !isPaused;
     }
 });
 
@@ -187,3 +193,4 @@ const arena = createMatrix(COLS, ROWS);
 const player = { pos: { x: 0, y: 0 }, matrix: null };
 playerReset();
 update();
+ 
