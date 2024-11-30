@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Тетрис</h1>
+    <div class="main">
+        <h1>Тетрис</h1>
     <div class="score-board">
         <div>Рахунок: <span id="score">0</span></div>
         <div>Рекорд: <span id="highScore">0</span></div>
@@ -15,17 +16,21 @@
     </div>
     <div class="game-container">
         <canvas id="tetris" width="300" height="600"></canvas>
-        <div class="side-panel">
-            <div>
-                <h3>Наступна фігура:</h3>
-                <canvas id="next-piece" width="120" height="120"></canvas>
-            </div>
-            <div>
-                <h3>Утримана фігура:</h3>
-                <canvas id="hold-piece" width="120" height="120"></canvas>
-            </div>
+       
+    </div>
+    </div>
+    <div class="side-panel">
+        <div>
+            <h3>Наступна фігура:</h3>
+            <canvas id="next-piece" width="120" height="120"></canvas>
+        </div>
+        <div>
+            <h3>Утримана фігура:</h3>
+            <canvas id="hold-piece" width="120" height="120"></canvas>
         </div>
     </div>
+    
+    
 
     <script src="./index.js"></script>
 </body>

@@ -29,3 +29,18 @@ canvas {
     background-color: #222;
     border: 2px solid #555;
 }
+
+.side-panel{
+    margin-left: 20px;
+}
+
+body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
